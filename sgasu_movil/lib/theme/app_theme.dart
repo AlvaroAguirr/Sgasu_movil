@@ -9,14 +9,12 @@ static const fontsecondcolor =
 Color.fromARGB(255, 58, 58, 58);
 
 static const backcolor =
-Color.fromARGB(255, 255, 255, 250);
+Color.fromARGB(255, 234, 245, 236);
 
 
 
 static final ThemeData lightTheme= ThemeData.light().copyWith(
     scaffoldBackgroundColor: backcolor,
-      
-
 );
 
 }
