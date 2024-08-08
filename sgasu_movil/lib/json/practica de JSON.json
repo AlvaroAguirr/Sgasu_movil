@@ -1,0 +1,71 @@
+{
+	"edificios": [
+		{
+			"nombre": "Edificio P",
+			"descrip": "para costura y TI",
+			"algo": "1",
+			"salones": [
+				{
+					"nombre_aula": "p1",
+					"moviliario": "20 sillas",
+					"tipo": "Aula",
+					"des_aula": "para materias"
+				},
+				{
+					"nombre_aula": "Sala Audiovisual",
+					"moviliario": "21 sillas",
+					"tipo": "sala de usos multiples",
+					"des_aula": "para presentaciones"
+				}
+			]
+		},
+		{
+			"nombre": "Edificio C",
+			"descrip": "para mantenimiento",
+			"salones": [
+				{
+					"nombre_aula": "c1",
+					"moviliario": "22 sillas",
+					"tipo": "Aula",
+					"des_aula": "para materias"
+				},
+				{
+					"nombre_aula": "Sala Audiovisual",
+					"moviliario": "23 sillas",
+					"tipo": "sala de usos multiples",
+					"des_aula": "para presentaciones"
+				}
+			]
+		},
+		{
+			"nombre": "Edificio H",
+			"descrip": "Desarrollo de negocios",
+			"salones": [
+				{
+					"nombre_aula": "h1",
+					"moviliario": "25 sillas",
+					"tipo": "Aula",
+					"des_aula": "para materias"
+				},
+				{
+					"nombre_aula": "h2",
+					"moviliario": "26 sillas",
+					"tipo": "Aula",
+					"des_aula": "para materias"
+				},
+				{
+					"nombre_aula": "h3",
+					"moviliario": "27 sillas",
+					"tipo": "Aula",
+					"des_aula": "para materias"
+				},
+				{
+					"nombre_aula": "Sala Audiovisual",
+					"moviliario": "28 sillas",
+					"tipo": "sala de usos multiples",
+					"des_aula": "para presentaciones"
+				}
+			]
+		}
+	]
+}

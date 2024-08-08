@@ -32,7 +32,7 @@ class _SurveyState extends State<Survey> {
           child: Container(color: Colors.orange,
           height: 4,),
         ),
-        title: const Text( "Seleccionar Edificio",style: TextStyle(color: Colors.white),),
+        title: const Text( "encuesta",style: TextStyle(color: Colors.white),),
         backgroundColor: Color.fromARGB(255, 90, 212, 114),
         
       ),

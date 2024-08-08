@@ -23,7 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
 late Future<List<Gif>> _listadoGifs;
 
 Future<List<Gif>> _getGif() async{
-  final response =await http.get(Uri.parse("https://mock_f58e5c268d7d4a169c017d6e970e6d09.mock.insomnia.rest/a"));
+//aqui es donde se pega el url de insomnia si es que te lo llega a cambiar cuando lo crees
+  final response =await http.get(Uri.parse("https://mock_8afac354b19843ceaafbba4ff730e71d.mock.insomnia.rest/"));
 
 
   List<Gif> gifs=[];
