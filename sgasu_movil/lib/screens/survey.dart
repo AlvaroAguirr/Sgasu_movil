@@ -43,7 +43,7 @@ class _SurveyState extends State<Survey> {
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
         color: const Color.fromARGB(255, 255, 251, 251),
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(20),
               ),
 
               child: ListView(children: const [
@@ -86,7 +86,7 @@ class _SurveyState extends State<Survey> {
               
               decoration: BoxDecoration(
         color: const Color.fromARGB(255, 255, 251, 251),
-                borderRadius: BorderRadius.circular(2),),
+                borderRadius: BorderRadius.circular(20),),
           
           
           child:
@@ -130,10 +130,13 @@ class _SurveyState extends State<Survey> {
               
               decoration: BoxDecoration(
         color: const Color.fromARGB(255, 255, 251, 251),
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: ListView(children: const [
-                Text("Descripción del evento",style:TextStyle(fontSize: 21)),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Descripción del evento",style:TextStyle(fontSize: 21)),
+                ),
 
                 Divider(height: 20,color: Color.fromARGB(0, 33, 149, 243),),
                 

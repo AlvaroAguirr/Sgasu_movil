@@ -8,13 +8,27 @@ static const  fontprimarycolor =
 static const fontsecondcolor =
 Color.fromARGB(255, 58, 58, 58);
 
-static const backcolor =
-Color.fromARGB(255, 234, 245, 236);
+static const backcolorGreen =
+Color.fromARGB(255, 206, 255, 219);
+static const whiteColor =
+Color.fromARGB(255, 254, 254, 254);
 
 
 
 static final ThemeData lightTheme= ThemeData.light().copyWith(
-    scaffoldBackgroundColor: backcolor,
-);
+    scaffoldBackgroundColor: backcolorGreen,
+
+  appBarTheme: const AppBarTheme(
+          color: backcolorGreen,
+          titleTextStyle: TextStyle(color: whiteColor,
+          fontWeight: FontWeight.bold)
+          )
+      )
+      ;
+      
+      
+
+
+
 
 }

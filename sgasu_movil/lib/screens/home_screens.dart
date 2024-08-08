@@ -1,5 +1,14 @@
+import 'dart:convert';
+
+
 import 'package:flutter/material.dart';
-import 'package:sgasu_movil/screens/survey.dart';
+import 'package:sgasu_movil/models/gif.dart';
+import 'package:sgasu_movil/screens/rooms.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:sgasu_movil/theme/app_theme.dart';
+
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,130 +19,126 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-  foregroundColor: Color.fromARGB(221, 11, 52, 67),
-  backgroundColor: Color.fromARGB(255, 121, 220, 245),
-  
-  
 
-  minimumSize: Size(120, 100),
-  padding: EdgeInsets.symmetric(horizontal: 16),
-  shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(2)),
-  ),
-);
+late Future<List<Gif>> _listadoGifs;
+
+Future<List<Gif>> _getGif() async{
+  final response =await http.get(Uri.parse("https://mock_f58e5c268d7d4a169c017d6e970e6d09.mock.insomnia.rest/a"));
+
+
+  List<Gif> gifs=[];
+
+
+if(response.statusCode ==200){
+  String body= utf8.decode(response.bodyBytes);
+
+  final jsonData= jsonDecode(body);
+
+  for (var item in jsonData["edificios"]) {
+    gifs.add(
+      Gif(item["nombre"],item["description"])
+    ) ;
+  }
+return gifs;
+
+  }else {
+    throw Exception("fallo la conexion");
+  }
+}
+
+@override
+  void initState() {
+    super.initState();
+    _listadoGifs=_getGif();
+  }
+
   String? nombre;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(3.0),
-          child: Container(color: Colors.orange,
-          height: 4,),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(90),
+     child: AppBar(
+      title: const Column(
+        children: [
+          SizedBox(height: 30,),
+        Center(child: Text("SGASU",
+        style: TextStyle(
+          fontSize: 40,
+          color: AppTheme.whiteColor),))
+
+        ]
         ),
-        title: const Text( "Edificios UTT",
-          style: TextStyle(color: Colors.white,
-          fontSize: 28),),
-        backgroundColor: Color.fromARGB(255, 90, 212, 114),
-        
       ),
-      body: ListView(
-        children:     [
-  Padding(padding: const EdgeInsets.all(20.0),
-          child:
-              Container(width: 500,
-              height:700,
-              
-              padding: const EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 255, 251, 251),
-                borderRadius: BorderRadius.circular(4),
-              ),
+      ),
 
-              child: ListView(children:  [
-                const Text("Seleccione un edificio", style: TextStyle(fontSize: 21),),
-                SizedBox(height: 20,),
-                Divider(height:2,color: Color.fromARGB(255, 141, 236, 239),),
-                SizedBox(height: 20,),
-                const Divider(height: 10,color: Color.fromARGB(0, 222, 218, 204),),
-            Row(mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 150,
-                height: 150,
-                child: ElevatedButton(
-                  style: raisedButtonStyle,
-                  onPressed: (){
-                    final ruta=MaterialPageRoute(builder: (context){
-                      return const Survey();
-                    }
-                    );
-                    Navigator.push(context,ruta);
-                  },
-                   child: Text("Edificio P",style: TextStyle(fontSize: 28),))
-              ),
-              const SizedBox(width: 20,),
-               SizedBox(
-               width: 150,
-                height: 150,
-                child: ElevatedButton(
-                  style: raisedButtonStyle,
-                  onPressed: null,
-                   child: Text("Edificio C",style: TextStyle(fontSize: 28),))
-              ),
-            ],
-            ),
-            SizedBox(height: 20,),
-            Row(mainAxisAlignment: MainAxisAlignment.center,
+      body:Container(
+        margin: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(20),
+         decoration: BoxDecoration(borderRadius: BorderRadius.circular(40),
+        color: AppTheme.whiteColor,
+         ),
+         //Tarjeta Generada por respuesta api 
+        child: FutureBuilder(
+          future: _listadoGifs,
+          builder: (context, snapshot) {
+            if(snapshot.hasData){
+            return ListView(
               
-            children: [
-              SizedBox(
-                
-                width: 150,
-                height: 150,
-                child: ElevatedButton(
-                  style: raisedButtonStyle,
-                  onPressed: null,
-                   child: Text("Edificio H",style: TextStyle(fontSize: 28),))
-              ),
-                 const SizedBox(width: 20,),
-              SizedBox(
-                
-                width: 150,
-                height: 150,
-                child: ElevatedButton(
-                  style: raisedButtonStyle,
-                  onPressed: null,
-                   child: Text("Edificio D",style: TextStyle(fontSize: 28),))
-              ),
-
-            ],)
-              ],),
-          ),
+              children: _listGifs(snapshot.data!),
+            );
+            } else if (snapshot.hasError){
+              print(snapshot.error);
+            return const Text('Ocurrio error al mostrar tarjetas ');
+            }
+            return const Center(child: CircularProgressIndicator(),);
+          },
         ),
-        
-
-         
-        ],
-      ) ,
+      ),
     );
   } 
 
-  TextField entradaTexto() {
-    return TextField(
-      style: TextStyle(color: Color.fromARGB(255, 255, 118, 118)),
-    
-      decoration: const InputDecoration(
-        border: UnderlineInputBorder(),
-        labelText: 'Escribe tu nombre: ',
-        labelStyle: TextStyle(color: Color.fromARGB(255, 165, 255, 175))
+//index de rutas no hecho
+int? a=0;
 
-      ),
-      onChanged: (text) {
-        nombre = text;
-      },
+
+// funcion que crea botones para ir al salon  
+  List<Widget> _listGifs(List<Gif> data){
+    List<Widget> gifs =[];
+  for (var gif in data) {
+    gifs.add(
+            Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+),
+              margin: const EdgeInsets.all(10),
+              child: MaterialButton(
+              height:100,
+              elevation: 8,
+              highlightElevation: 25,
+              disabledElevation: 10,
+              shape:const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))
+                ),
+                highlightColor: const Color.fromARGB(31, 255, 229, 206),
+                 color:AppTheme.backcolorGreen ,
+                onPressed: (){
+                  final ruta=MaterialPageRoute(builder: (context){
+                        return  const Rooms(
+                        ); }
+                      );
+                      Navigator.push(context,ruta);
+            }
+              ,child: Text(gif.name,style: const TextStyle(
+                fontSize: 40,
+                color: Color.fromARGB(255, 150, 129, 162)
+                )
+              )
+            ),
+          )
     );
-  }
+        }
+  return gifs;
+}
+
 }
 
