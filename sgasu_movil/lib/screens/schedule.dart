@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sgasu_movil/models/event.dart';
+import 'package:sgasu_movil/screens/survey.dart';
 import 'package:sgasu_movil/theme/app_theme.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -80,9 +81,27 @@ body: Container(
                   onDaySelected: _onDaySelected,
               ),
               ),
-              Text(today.toString().split(" ")[0])
+              Text(today.toString().split(" ")[0]),
+              SizedBox(height: 20),
+              Text("aqui habra un widget que muestre la hora"),
+              
+              SizedBox(height: 200),
+            MaterialButton(highlightColor: AppTheme.backcolorGreen,
+            color:AppTheme.backcolorGreen ,
+            height: 50,
+            minWidth: 100
+            ,onPressed: (){
+                  final ruta=MaterialPageRoute(builder: (context){
+                        return  const Survey(
+                        ); }
+                      );
+                      Navigator.push(context,ruta);
+            }, child: 
+            Text("guardar")
+            ,)
           ],
          ),
+         
 )
     );
   }

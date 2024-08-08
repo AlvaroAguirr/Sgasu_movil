@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sgasu_movil/models/Gif.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:sgasu_movil/models/ruta.dart';
 import 'package:sgasu_movil/screens/schedule.dart';
-import 'package:sgasu_movil/screens/survey.dart';
 import 'package:sgasu_movil/theme/app_theme.dart';
 
 class Rooms extends StatefulWidget {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sgasu_movil/screens/home_screens.dart';
 
 class Survey extends StatefulWidget {
   const Survey({super.key});
@@ -21,7 +22,9 @@ class _SurveyState extends State<Survey> {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          IconButton(onPressed: (){},
+          IconButton(onPressed: (){
+               
+          },
            icon: Icon(Icons.search))
         ],
         bottom: PreferredSize(
@@ -149,7 +152,13 @@ class _SurveyState extends State<Survey> {
                 )
                 
                 ],),),
-              ElevatedButton(onPressed: null, child: Text("Guardar")),
+              ElevatedButton(onPressed: (){
+                 final ruta=MaterialPageRoute(builder: (context){
+                        return  const HomeScreen(
+                        ); }
+                      );
+                      Navigator.push(context,ruta);
+              }, child: Text("Guardar")),
         ],
       ) ,
     );
