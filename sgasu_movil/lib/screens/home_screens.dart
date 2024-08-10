@@ -23,8 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
 late Future<List<Gif>> _listadoGifs;
 
 Future<List<Gif>> _getGif() async{
-//aqui es donde se pega el url de insomnia si es que te lo llega a cambiar cuando lo crees
-  final response =await http.get(Uri.parse("https://mock_8afac354b19843ceaafbba4ff730e71d.mock.insomnia.rest/"));
+  final response =await http.get(Uri.parse("https://mock_403afb3074cf402eac0c6cb611071e51.mock.insomnia.rest/"));
 
 
   List<Gif> gifs=[];
@@ -34,6 +33,7 @@ if(response.statusCode ==200){
   String body= utf8.decode(response.bodyBytes);
 
   final jsonData= jsonDecode(body);
+  print(jsonData);
 
   for (var item in jsonData["edificios"]) {
     gifs.add(
@@ -52,6 +52,7 @@ return gifs;
     super.initState();
     _listadoGifs=_getGif();
   }
+
 
   String? nombre;
   @override
@@ -80,20 +81,27 @@ return gifs;
         color: AppTheme.whiteColor,
          ),
          //Tarjeta Generada por respuesta api 
-        child: FutureBuilder(
-          future: _listadoGifs,
-          builder: (context, snapshot) {
-            if(snapshot.hasData){
-            return ListView(
-              
-              children: _listGifs(snapshot.data!),
-            );
-            } else if (snapshot.hasError){
-              print(snapshot.error);
-            return const Text('Ocurrio error al mostrar tarjetas ');
-            }
-            return const Center(child: CircularProgressIndicator(),);
-          },
+        child: Column(
+          children: [
+            Text("Lista de din"),
+            Expanded(
+              child: FutureBuilder(
+                future: _listadoGifs,
+                builder: (context, snapshot) {
+                  if(snapshot.hasData){
+                  return ListView(
+                    
+                    children: _listGifs(snapshot.data!),
+                  );
+                  } else if (snapshot.hasError){
+                    print(snapshot.error);
+                  return const Text('Ocurrio error al mostrar tarjetas ');
+                  }
+                  return const Center(child: CircularProgressIndicator(),);
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -102,11 +110,24 @@ return gifs;
 //index de rutas no hecho
 int? a=0;
 
+List<int> numerolista =[];
+
+
+
+
+
+
 
 // funcion que crea botones para ir al salon  
   List<Widget> _listGifs(List<Gif> data){
+
+
     List<Widget> gifs =[];
-  for (var gif in data) {
+     List<int> indices = [];
+    for (int i=0;i< data.length;i++){
+
+Gif gif =data[i];
+
     gifs.add(
             Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
@@ -123,9 +144,13 @@ int? a=0;
                 highlightColor: const Color.fromARGB(31, 255, 229, 206),
                  color:AppTheme.backcolorGreen ,
                 onPressed: (){
-                  final ruta=MaterialPageRoute(builder: (context){
-                        return  const Rooms(
-                        ); }
+                  int currentindex =indices[i];
+                  final ruta=MaterialPageRoute(
+                    builder:(context){
+                      return Rooms(numeroURl: currentindex,);
+                    }
+                  
+                         
                       );
                       Navigator.push(context,ruta);
             }
@@ -137,9 +162,17 @@ int? a=0;
             ),
           )
     );
+    indices.add(i);
         }
+    print(indices);
   return gifs;
 }
+
+Text titulo(info){
+  return Text("$info");
+}
+
+
 
 }
 

@@ -8,8 +8,10 @@ import 'package:sgasu_movil/screens/schedule.dart';
 import 'package:sgasu_movil/theme/app_theme.dart';
 
 class Rooms extends StatefulWidget {
+final int numeroURl;
 
   const Rooms({
+    required this.numeroURl,
     super.key
 
     });
@@ -17,12 +19,9 @@ class Rooms extends StatefulWidget {
   @override
   State<Rooms> createState() => _RoomsState();
 }
-
-
-
 class _RoomsState extends State<Rooms> {
 
-int? obje;
+int? obje ;
   
 
 late Future<List<Gif>> _listadoGifs;
@@ -42,7 +41,7 @@ final jsonData= jsonDecode(body);
 // print(jsonData["edificios"][0]["salones"][0]["nombre_aula"]);
 
 
-for (var item in jsonData["edificios"][1]["salones"]) {
+for (var item in jsonData["edificios"][widget.numeroURl]["salones"]) {
   gifs.add(
     Gif(item["nombre_aula"],item["tipo"]),
   );

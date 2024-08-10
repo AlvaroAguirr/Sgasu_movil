@@ -15,15 +15,14 @@ class _ScheduleState extends State<Schedule> {
 CalendarFormat _calendarFormat=CalendarFormat.month;
 DateTime _focusedDay= DateTime.now();
 DateTime? _selectedDay;
-
-
-  DateTime today = DateTime.now();
-
+ 
 //Store the events created 
 Map<DateTime, List<Event>> events ={};
+
+
 TextEditingController _eventControler = TextEditingController();
 
-late final ValueNotifier<List<Event>>_selectedEvent;
+late final ValueNotifier<List<Event>> _selectedEvent;
   
 
 @override
@@ -57,6 +56,7 @@ List<Event> _getEventsForDay(DateTime day){
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      resizeToAvoidBottomInset:false,
 appBar: PreferredSize(
         preferredSize: const Size.fromHeight(90),
      child: AppBar(
@@ -77,7 +77,7 @@ floatingActionButton: FloatingActionButton(
     , builder: (context){
       return AlertDialog(
         scrollable: true,
-        title: Text("Hora del evento" ),
+        title: const Text("Hora del evento" ),
         content: 
         Padding(padding: const EdgeInsets.all(8.0),
         child: TextField(
@@ -93,7 +93,7 @@ floatingActionButton: FloatingActionButton(
           Navigator.of(context).pop();
           _selectedEvent.value=_getEventsForDay(_selectedDay!);
           }, 
-          child:Text("hecho")
+          child:const Text("hecho")
           ),
         ]
       );
@@ -107,10 +107,10 @@ body: Container(
          decoration: BoxDecoration(borderRadius: BorderRadius.circular(40),
         color: AppTheme.whiteColor,
          ),child: Column(
+          
           children: [
-              Text("Dia seleccionado "+ today.toString().split(" ")[0]),
-              Container(
-                child: 
+              Text("Dia seleccionado "+ _selectedDay.toString().split(" ")[0]),
+                
 TableCalendar(
   firstDay: DateTime.utc(2010,3,14),
   lastDay: DateTime.utc(2030,3,14),
@@ -120,7 +120,7 @@ TableCalendar(
   startingDayOfWeek: StartingDayOfWeek.monday,
   onDaySelected: _onDaySelected,
   eventLoader: _getEventsForDay,
-  calendarStyle: CalendarStyle(
+  calendarStyle: const CalendarStyle(
     outsideDaysVisible: false,
   ),
   onFormatChanged: (format){
@@ -134,7 +134,7 @@ TableCalendar(
     _focusedDay=focusDay;
   },
 ),
-),
+
 SizedBox(height: 7,),
 Expanded(
   child: ValueListenableBuilder<List<Event>>(
@@ -147,9 +147,12 @@ Expanded(
         margin: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
         decoration: BoxDecoration(
           border: Border.all(),
-          borderRadius: BorderRadius.circular(12)
-        ),
-        child: ListTile(onTap: () => print(""),title: Text('hola ${value[index]}'),),
+            borderRadius: BorderRadius.circular(12)
+          ),
+        child: ListTile(
+          onTap: () => print("${value.length}"),
+          title: Text('${value[index]}'),
+          ),
       );
       
     });
@@ -171,7 +174,7 @@ Expanded(
               //     onDaySelected: _onDaySelected,
               // ),
               Text(_selectedDay.toString().split(" ")[0]),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Text("aqui habra un widget que muestre la hora"),
               SizedBox(height: 100),
             MaterialButton(highlightColor: AppTheme.backcolorGreen,
