@@ -33,7 +33,7 @@ if(response.statusCode ==200){
   String body= utf8.decode(response.bodyBytes);
 
   final jsonData= jsonDecode(body);
-  print(jsonData);
+
 
   for (var item in jsonData["edificios"]) {
     gifs.add(
@@ -90,8 +90,8 @@ return gifs;
                 builder: (context, snapshot) {
                   if(snapshot.hasData){
                   return ListView(
-                    
-                    children: _listGifs(snapshot.data!),
+                    children:
+                     _listGifs(snapshot.data!),
                   );
                   } else if (snapshot.hasError){
                     print(snapshot.error);
@@ -164,15 +164,8 @@ Gif gif =data[i];
     );
     indices.add(i);
         }
-    print(indices);
   return gifs;
 }
-
-Text titulo(info){
-  return Text("$info");
-}
-
-
 
 }
 

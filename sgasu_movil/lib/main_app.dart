@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sgasu_movil/screens/home_screens.dart';
+import 'package:sgasu_movil/screens/scroll.dart';
 import 'package:sgasu_movil/theme/app_theme.dart';
 
 
@@ -12,7 +13,6 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
       theme: AppTheme.lightTheme
-
     );
   }
 }

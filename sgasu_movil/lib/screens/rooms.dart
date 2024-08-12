@@ -85,21 +85,29 @@ return gifs;
 
 
          //Tarjetas generadas por respuesta de api
-        child: FutureBuilder(
-          future: _listadoGifs,
-          builder: (context, snapshot) {
-            if(snapshot.hasData){
-            return ListView(
-              padding: const EdgeInsets.all(20),
-              //llamdo de la funcion _listGifs de abajo
-              children: _listGifs(snapshot.data!),
-            );
-            } else if (snapshot.hasError){
-              print(snapshot.error);
-            return const Text('Ocurrio error al mostrar tarjeta en salones ');
-            }
-            return const Center(child: CircularProgressIndicator(),);
-          },
+        child: Column(
+          children: [
+            Text("data"),
+            Expanded(
+              child: FutureBuilder(
+                future: _listadoGifs,
+                builder: (context, snapshot) {
+                  if(snapshot.hasData){
+                  return ListView(
+                    padding: const EdgeInsets.all(20),
+                    //llamdo de la funcion _listGifs de abajo
+                    children: _listGifs(snapshot.data!),
+                  );
+                  } else if (snapshot.hasError){
+                    print(snapshot.error);
+                  return const Text('Ocurrio error al mostrar tarjeta en salones ');
+                  }
+                  return const Center(child: CircularProgressIndicator(),);
+                },
+              ),
+            ),
+          
+          ],
         ),
       ),
     );
@@ -159,7 +167,6 @@ return gifs;
       )
       );
   }
-  print(gifs);
   return gifs;
 
   }
