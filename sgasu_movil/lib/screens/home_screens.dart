@@ -8,7 +8,16 @@ import 'package:sgasu_movil/screens/rooms.dart';
 import 'package:http/http.dart' as http;
 import 'package:sgasu_movil/theme/app_theme.dart';
 
-
+class Expandir{
+  Expandir({
+    required this.headerText,
+    required this.expandenText,
+    this.isExpanded = false,
+  });
+  String headerText;
+  String expandenText;
+  bool isExpanded;
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,8 +32,16 @@ class _HomeScreenState extends State<HomeScreen> {
 late Future<List<Gif>> _listadoGifs;
 
 Future<List<Gif>> _getGif() async{
-  final response =await http.get(Uri.parse("https://mock_403afb3074cf402eac0c6cb611071e51.mock.insomnia.rest/"));
 
+
+  /*
+
+       para leer datos del sistema web
+  final response =await http.get(Uri.parse("http://10.0.2.2:8000/API/edificios"));
+
+   */
+  
+  final response =await http.get(Uri.parse("https://mock_403afb3074cf402eac0c6cb611071e51.mock.insomnia.rest/"));
 
   List<Gif> gifs=[];
 
@@ -33,13 +50,19 @@ if(response.statusCode ==200){
   String body= utf8.decode(response.bodyBytes);
 
   final jsonData= jsonDecode(body);
-
-
+//print(jsonData[1]);
   for (var item in jsonData["edificios"]) {
     gifs.add(
       Gif(item["nombre"],item["description"])
     ) ;
   }
+
+// para leer datos del sistema web
+  // for (var item in jsonData) {
+  //   gifs.add(
+  //     Gif(item["bg_name"],item["bg_description"])
+  //   ) ;
+  // }
 return gifs;
 
   }else {
@@ -101,6 +124,77 @@ return gifs;
                 },
               ),
             ),
+            ElevatedButton(
+      
+        child: Text("hola que hace"),
+        onPressed: (){
+          showModalBottomSheet(
+            context: context,
+             builder: (BuildContext Context){
+              return  SizedBox(
+                height: 600,
+                child: Center(
+                  child: Column(children: [
+                    SizedBox(height: 20,),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Buscar reservaciones"),
+                        
+                        SizedBox(width: 30,),
+                        SizedBox(width: 150,
+                          child: TextField(
+                            decoration:InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Matrícula"),
+                              ),
+                        ),
+                      ],
+                    ),  
+
+                    SizedBox(height: 20,),
+
+                        Expanded(
+                          child: ListView(
+                            children: [
+
+                              Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: Column(children: [
+                                  Text("Titulo: nombre  de quien pidio"),
+                                  Text("hora"),
+                                  Text("cosas aprobadas"),
+                                  Row(
+                                    children: [ 
+                                    ElevatedButton(onPressed: (){}, child: Text("editar")),
+                                    ElevatedButton(onPressed: (){}, child: Text("eliminar")),
+
+
+                                    ],)
+                                ],)
+                                
+                                )
+
+                            ],
+                          ),
+                        ),
+                        ElevatedButton(onPressed: (){}, child: Text("Buscar")),
+                     
+
+                  ],)
+                  ),
+              );
+
+             }
+             );
+        },
+        ),
+
+
+
           ],
         ),
       ),

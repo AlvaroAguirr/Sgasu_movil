@@ -29,23 +29,39 @@ late Future<List<Gif>> _listadoGifs;
 
 Future<List<Gif>> _getGif() async{
 //aqui es donde se pega el url de insomnia si es que te lo llega a cambiar cuando lo crees
-  final response =await http.get(Uri.parse("https://mock_8afac354b19843ceaafbba4ff730e71d.mock.insomnia.rest/"));
+
+/*
+  final response =await http.get(Uri.parse("http://10.0.2.2:8000/API/edificios/${widget.numeroURl+1}/salones"));
   
+ */
+
+  final response =await http.get(Uri.parse("https://mock_8afac354b19843ceaafbba4ff730e71d.mock.insomnia.rest/"));
   List<Gif> gifs=[];
 
 if(response.statusCode ==200){
 String body= utf8.decode(response.bodyBytes);
 final jsonData= jsonDecode(body);
 
+
 // print(jsonData["edificios"][0]["nombre"]);
 // print(jsonData["edificios"][0]["salones"][0]["nombre_aula"]);
 
 
-for (var item in jsonData["edificios"][widget.numeroURl]["salones"]) {
+
+for (var item in jsonData["edificios"][1]["salones"]) {
   gifs.add(
     Gif(item["nombre_aula"],item["tipo"]),
   );
 }
+
+
+// para leer datos del sistema web
+
+// for (var item in jsonData) {
+//   gifs.add(
+//     Gif(item["cm_name"],item["cm_furniture"]),
+//   );
+// }
 return gifs;
 
   }else {

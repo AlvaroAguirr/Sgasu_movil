@@ -78,38 +78,39 @@ appBar: PreferredSize(
       ),
      ),
 ),
-floatingActionButton: FloatingActionButton(
-  onPressed: (){
-    showDialog(context: context
-    , builder: (context){
-      return AlertDialog(
-        scrollable: true,
-        title: const Text("Hora del evento" ),
-        content: 
-        Padding(padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          controller: _eventControler,
-        ),
-        ),
-        actions: [
-          ElevatedButton(onPressed: (){
-             if (events[_selectedDay] != null) {
-                  events[_selectedDay]!.add(Event(_eventControler.text));
-                } else {
-                  events[_selectedDay!] = [Event(_eventControler.text)];
-                }
-          _selectedEvent.value=_getEventsForDay(_selectedDay!);
-          Navigator.of(context).pop();
-          _eventControler.clear();
-          }, 
-          child:const Text("hecho")
-          ),
-        ]
-      );
-    });
-  },
-child: const Icon(Icons.add)
-),
+
+// floatingActionButton: FloatingActionButton(
+//   onPressed: (){
+//     showDialog(context: context
+//     , builder: (context){
+//       return AlertDialog(
+//         scrollable: true,
+//         title: const Text("Hora del evento" ),
+//         content: 
+//         Padding(padding: const EdgeInsets.all(8.0),
+//         child: TextField(
+//           controller: _eventControler,
+//         ),
+//         ),
+//         actions: [
+//           ElevatedButton(onPressed: (){
+//              if (events[_selectedDay] != null) {
+//                   events[_selectedDay]!.add(Event(_eventControler.text));
+//                 } else {
+//                   events[_selectedDay!] = [Event(_eventControler.text)];
+//                 }
+//           _selectedEvent.value=_getEventsForDay(_selectedDay!);
+//           Navigator.of(context).pop();
+//           _eventControler.clear();
+//           }, 
+//           child:const Text("hecho")
+//           ),
+//         ]
+//       );
+//     });
+//   },
+// child: const Icon(Icons.add)
+// ),
 body: Container(
         margin: const EdgeInsets.all(10.0),
         padding: const EdgeInsets.all(20),
@@ -171,6 +172,43 @@ TableCalendar(
               ),
             ],
           ),
+          Container(
+            height: 150,
+            margin: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(12)),
+            child: 
+            //que se quede el list view  para mostrar los horarios usados 
+             ListView(
+              children: [
+
+                Text("Horarios Apartados"),
+              
+                Row(mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    
+                    Text("de 7:00",style: TextStyle(fontSize: 30),),
+                    Text("A 10:00",style: TextStyle(fontSize: 30),),
+                  ],
+                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("de 12:00",style: TextStyle(fontSize: 30),),
+                    Text("A 1:00",style: TextStyle(fontSize: 30),),
+                  ],
+                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("de 15:00",style: TextStyle(fontSize: 30),),
+                    Text("A 17:00",style: TextStyle(fontSize: 30),),
+                  ],
+                  ),
+              ],
+            ),
+              ),
 Expanded(
   child: ValueListenableBuilder<List<Event>>(
     valueListenable: _selectedEvent,
