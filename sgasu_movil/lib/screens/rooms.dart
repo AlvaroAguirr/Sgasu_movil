@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:sgasu_movil/models/Gif.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:sgasu_movil/models/gif.dart';
 import 'package:sgasu_movil/screens/schedule.dart';
 import 'package:sgasu_movil/theme/app_theme.dart';
 
@@ -21,7 +21,6 @@ final int numeroURl;
 }
 class _RoomsState extends State<Rooms> {
 
-int? obje ;
   
 
 late Future<List<Gif>> _listadoGifs;
@@ -30,12 +29,8 @@ late Future<List<Gif>> _listadoGifs;
 Future<List<Gif>> _getGif() async{
 //aqui es donde se pega el url de insomnia si es que te lo llega a cambiar cuando lo crees
 
-/*
-  final response =await http.get(Uri.parse("http://10.0.2.2:8000/API/edificios/${widget.numeroURl+1}/salones"));
-  
- */
 
-  final response =await http.get(Uri.parse("https://mock_8afac354b19843ceaafbba4ff730e71d.mock.insomnia.rest/"));
+  final response =await http.get(Uri.parse("http://10.0.2.2:8000/API/edificios/${widget.numeroURl}/salones"));
   List<Gif> gifs=[];
 
 if(response.statusCode ==200){
@@ -43,25 +38,11 @@ String body= utf8.decode(response.bodyBytes);
 final jsonData= jsonDecode(body);
 
 
-// print(jsonData["edificios"][0]["nombre"]);
-// print(jsonData["edificios"][0]["salones"][0]["nombre_aula"]);
-
-
-
-for (var item in jsonData["edificios"][1]["salones"]) {
+for (var item in jsonData) {
   gifs.add(
-    Gif(item["nombre_aula"],item["tipo"]),
+    Gif(item["cm_name"],item["cm_furniture"],edi: item['cm_roof']['bg_name'] as String?),
   );
 }
-
-
-// para leer datos del sistema web
-
-// for (var item in jsonData) {
-//   gifs.add(
-//     Gif(item["cm_name"],item["cm_furniture"]),
-//   );
-// }
 return gifs;
 
   }else {
@@ -73,6 +54,7 @@ return gifs;
   void initState() {
     super.initState();
     _listadoGifs=_getGif();
+    
   }
 
   @override
@@ -102,6 +84,7 @@ return gifs;
 
          //Tarjetas generadas por respuesta de api
         child: Column(
+          
           children: [
             Text("data"),
             Expanded(
@@ -159,11 +142,18 @@ return gifs;
         ),
         child: MaterialButton(
           onPressed: (){
-                final ruta=MaterialPageRoute(builder: (context){
-                        return  const Schedule(
+            String? edificioActual= gif.edi;
+            if(edificioActual != null ){
+
+                final ruta=MaterialPageRoute(
+                  builder: (context){
+                        return Schedule(
+                          nSalon: gif.name,
+                          nEdificio: edificioActual,
                         ); }
                       );
                       Navigator.push(context,ruta);
+            }
           },
         child: 
          
@@ -176,6 +166,7 @@ return gifs;
               Text(gif.url,style: const TextStyle(fontSize: 20,
               color: Color.fromARGB(255, 119, 150, 119),
               ),),
+              
             ],
           ),
         

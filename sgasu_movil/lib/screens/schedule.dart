@@ -8,7 +8,16 @@ import 'package:intl/intl.dart';
 
 
 class Schedule extends StatefulWidget {
-  const Schedule({super.key});
+  final String nSalon;
+  final String nEdificio;
+
+
+
+  const Schedule({
+    required this.nSalon,
+    required this.nEdificio,
+    super.key
+    });
 
   @override
   State<Schedule> createState() => _ScheduleState();
@@ -118,7 +127,7 @@ body: Container(
         color: AppTheme.whiteColor,
          ),child: Column(
           children: [
-              Text("Dia seleccionado "+ _selectedDay.toString().split(" ")[0]),
+              Text("Apartando ${widget.nSalon} del ${widget.nEdificio}"),
 TableCalendar(
   rowHeight: 42,
   firstDay: DateTime.utc(2010,3,14),
@@ -185,27 +194,8 @@ TableCalendar(
 
                 Text("Horarios Apartados"),
               
-                Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    
-                    Text("de 7:00",style: TextStyle(fontSize: 30),),
-                    Text("A 10:00",style: TextStyle(fontSize: 30),),
-                  ],
-                  ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("de 12:00",style: TextStyle(fontSize: 30),),
-                    Text("A 1:00",style: TextStyle(fontSize: 30),),
-                  ],
-                  ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("de 15:00",style: TextStyle(fontSize: 30),),
-                    Text("A 17:00",style: TextStyle(fontSize: 30),),
-                  ],
-                  ),
+                
+                  
               ],
             ),
               ),

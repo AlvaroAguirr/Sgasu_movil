@@ -34,14 +34,12 @@ late Future<List<Gif>> _listadoGifs;
 Future<List<Gif>> _getGif() async{
 
 
-  /*
+  
 
-       para leer datos del sistema web
+      // para leer datos del sistema web
   final response =await http.get(Uri.parse("http://10.0.2.2:8000/API/edificios"));
 
-   */
-  
-  final response =await http.get(Uri.parse("https://mock_403afb3074cf402eac0c6cb611071e51.mock.insomnia.rest/"));
+  // final response =await http.get(Uri.parse("https://mock_403afb3074cf402eac0c6cb611071e51.mock.insomnia.rest/"));
 
   List<Gif> gifs=[];
 
@@ -51,18 +49,14 @@ if(response.statusCode ==200){
 
   final jsonData= jsonDecode(body);
 //print(jsonData[1]);
-  for (var item in jsonData["edificios"]) {
-    gifs.add(
-      Gif(item["nombre"],item["description"])
-    ) ;
-  }
+
 
 // para leer datos del sistema web
-  // for (var item in jsonData) {
-  //   gifs.add(
-  //     Gif(item["bg_name"],item["bg_description"])
-  //   ) ;
-  // }
+  for (var item in jsonData) {
+    gifs.add(
+      Gif(item["bg_name"],item["bg_description"], id: item['id'] as int?)
+    ) ;
+  }
 return gifs;
 
   }else {
@@ -104,7 +98,8 @@ return gifs;
         color: AppTheme.whiteColor,
          ),
          //Tarjeta Generada por respuesta api 
-        child: Column(
+        child: 
+        Column(
           children: [
             Text("Lista de din"),
             Expanded(
@@ -124,19 +119,28 @@ return gifs;
                 },
               ),
             ),
+
+
+
+          
             ElevatedButton(
       
         child: Text("hola que hace"),
         onPressed: (){
           showModalBottomSheet(
             context: context,
-             builder: (BuildContext Context){
-              return  SizedBox(
+             builder: (BuildContext context){
+              return  StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState){
+
+              
+              
+              return SizedBox(
                 height: 600,
                 child: Center(
                   child: Column(children: [
                     SizedBox(height: 20,),
-                    const Row(
+                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("Buscar reservaciones"),
@@ -144,6 +148,7 @@ return gifs;
                         SizedBox(width: 30,),
                         SizedBox(width: 150,
                           child: TextField(
+                            controller: _controller,
                             decoration:InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: "Matrícula"),
@@ -151,62 +156,141 @@ return gifs;
                         ),
                       ],
                     ),  
-
                     SizedBox(height: 20,),
-
                         Expanded(
-                          child: ListView(
-                            children: [
-
-                              Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(12)),
-                                child: Column(children: [
-                                  Text("Titulo: nombre  de quien pidio"),
-                                  Text("hora"),
-                                  Text("cosas aprobadas"),
-                                  Row(
-                                    children: [ 
-                                    ElevatedButton(onPressed: (){}, child: Text("editar")),
-                                    ElevatedButton(onPressed: (){}, child: Text("eliminar")),
-
-
-                                    ],)
-                                ],)
-                                
-                                )
-
-                            ],
-                          ),
+                          child:_dataloaded
+                          ?FutureBuilder(
+                            future: _listadoEventos,
+                             builder: (context, snapshot){
+                              if (snapshot.hasData){
+                                return ListView(
+                                  children: 
+                                    _listEventos(snapshot.data!),
+                                );
+                              } else if (snapshot.hasError){
+                                print(snapshot.error);
+                                return const Text("Ocurrio un error al consultar ");
+                              }
+                                return const Center(child: CircularProgressIndicator(),);
+                             }
+                        )
+                        :const Text("Aqui se mostraran las consultas")
                         ),
-                        ElevatedButton(onPressed: (){}, child: Text("Buscar")),
-                     
-
+                        ElevatedButton(
+                          onPressed: (){
+                            
+                               final query = _controller.text.trim();
+                          setState(() {
+                            _dataloaded=true;
+                            _listadoEventos=_getevento(query);
+                          });
+                          }  
+                          , 
+                          child: Text("Buscar ")),
                   ],)
                   ),
               );
 
              }
              );
+                });
         },
         ),
-
-
-
           ],
         ),
       ),
     );
   } 
 
-//index de rutas no hecho
-int? a=0;
+ Future<List<Gif>>? _listadoEventos;
+ bool _dataloaded=false ;
+ TextEditingController _controller = TextEditingController();
 
-List<int> numerolista =[];
 
+Future<List<Gif>> _getevento(String query) async{
+      // para leer datos del sistema web
+  final response =await http.get(Uri.parse("http://10.0.2.2:8000/API/solicitud"));
+  List<Gif> gifs=[];
+if(response.statusCode ==200){
+  String body= utf8.decode(response.bodyBytes);
+  final jsonData= jsonDecode(body);
 
+  for (var item in jsonData) {
+if(item["applicant_name"] ==query){
+    gifs.add(
+      Gif(item["applicant_name"],item["request_time"])
+    ) ;
+    }
+  }
+
+return gifs;
+
+  }else {
+    throw Exception("fallo la conexion");
+  }
+}
+
+void _loadData(){
+   final query = _controller.text;
+  setState(() {
+    _dataloaded=true;
+    _listadoEventos=_getevento(query);
+  });
+}
+
+ List<Widget> _listEventos(List<Gif> data){
+    List<Widget> gifs =[];
+
+for (Gif gif in data) {
+  
+    gifs.add(
+            Container(
+              
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all()
+
+),
+              margin: const EdgeInsets.all(10)
+                                //   margin: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
+                                //   decoration: BoxDecoration(
+                                //     border: Border.all(),
+                                //     borderRadius: BorderRadius.circular(12)),
+                                // child: Column(children: [
+                                //   Text("Titulo: nombre  de quien pidio"),
+                                //   Text("hora"),
+                                //   Text("cosas aprobadas"),
+                                //   Row(
+                                //     children: [ 
+                                //     ElevatedButton(onPressed: (){}, child: Text("editar")),
+                                //     ElevatedButton(onPressed: (){}, child: Text("eliminar")),
+                                //     ],)
+                                // ],)
+              
+              ,child: Column(
+                children: [
+                  Text(gif.name,style: const TextStyle(
+                    color: Color.fromARGB(255, 88, 88, 88)
+                    )
+                  ),
+                  Text("${gif.url}",style: const TextStyle(
+                    color: Color.fromARGB(255, 88, 88, 88)
+                    )
+                  ),
+                  Row(children: [
+                    ElevatedButton(onPressed: (){}, child: Text("Editar")),
+                    ElevatedButton(onPressed: (){}, child: Text("Eliminar")),
+                  ],)
+                ],
+              )
+            ),
+          
+    );
+}
+  
+        
+  return gifs;
+}
 
 
 
@@ -214,14 +298,10 @@ List<int> numerolista =[];
 
 // funcion que crea botones para ir al salon  
   List<Widget> _listGifs(List<Gif> data){
-
-
     List<Widget> gifs =[];
-     List<int> indices = [];
-    for (int i=0;i< data.length;i++){
 
-Gif gif =data[i];
-
+for (Gif gif in data) {
+  
     gifs.add(
             Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
@@ -238,15 +318,16 @@ Gif gif =data[i];
                 highlightColor: const Color.fromARGB(31, 255, 229, 206),
                  color:AppTheme.backcolorGreen ,
                 onPressed: (){
-                  int currentindex =indices[i];
+                  int? currentindex =gif.id;
+                  if(currentindex != null ){
+
                   final ruta=MaterialPageRoute(
                     builder:(context){
                       return Rooms(numeroURl: currentindex,);
                     }
-                  
-                         
                       );
                       Navigator.push(context,ruta);
+                  }
             }
               ,child: Text(gif.name,style: const TextStyle(
                 fontSize: 40,
@@ -256,8 +337,9 @@ Gif gif =data[i];
             ),
           )
     );
-    indices.add(i);
-        }
+}
+  
+        
   return gifs;
 }
 
