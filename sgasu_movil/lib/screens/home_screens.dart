@@ -2,6 +2,8 @@ import 'dart:convert';
 
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sgasu_movil/global/common/toast.dart';
 import 'package:sgasu_movil/models/gif.dart';
 import 'package:sgasu_movil/screens/rooms.dart';
 
@@ -37,7 +39,7 @@ Future<List<Gif>> _getGif() async{
   
 
       // para leer datos del sistema web
-  final response =await http.get(Uri.parse("http://10.0.2.2:8000/API/edificios"));
+  final response =await http.get(Uri.parse("http://192.168.100.9:8000/API/edificios"));
 
   // final response =await http.get(Uri.parse("https://mock_403afb3074cf402eac0c6cb611071e51.mock.insomnia.rest/"));
 
@@ -120,9 +122,6 @@ return gifs;
               ),
             ),
 
-
-
-          
             ElevatedButton(
       
         child: Text("hola que hace"),
@@ -132,9 +131,6 @@ return gifs;
              builder: (BuildContext context){
               return  StatefulBuilder(
                 builder: (BuildContext context, StateSetter setState){
-
-              
-              
               return SizedBox(
                 height: 600,
                 child: Center(
@@ -149,7 +145,11 @@ return gifs;
                         SizedBox(width: 150,
                           child: TextField(
                             controller: _controller,
+                            maxLength: 11,
+                                textCapitalization: TextCapitalization.characters,
+
                             decoration:InputDecoration(
+                              counterText: '',
                               border: OutlineInputBorder(),
                               labelText: "Matrícula"),
                               ),
@@ -178,13 +178,18 @@ return gifs;
                         ),
                         ElevatedButton(
                           onPressed: (){
-                            
-                               final query = _controller.text.trim();
+                            final query = _controller.text.trim();
+                            if (query.length==11){
                           setState(() {
                             _dataloaded=true;
                             _listadoEventos=_getevento(query);
                           });
-                          }  
+                          } else {
+                        
+                        Fluttertoast.cancel();
+                              showToast(message: "LLenar el campo Matrícula");
+                              }
+                      }
                           , 
                           child: Text("Buscar ")),
                   ],)
@@ -208,18 +213,20 @@ return gifs;
 
 
 Future<List<Gif>> _getevento(String query) async{
+  print("texto del matricula ${query.length}");
       // para leer datos del sistema web
-  final response =await http.get(Uri.parse("http://10.0.2.2:8000/API/solicitud"));
+  final response =await http.get(Uri.parse("http://192.168.100.9:8000/API/solicitud"));
   List<Gif> gifs=[];
 if(response.statusCode ==200){
   String body= utf8.decode(response.bodyBytes);
   final jsonData= jsonDecode(body);
 
   for (var item in jsonData) {
-if(item["applicant_name"] ==query){
+if(item["rt_matricula"]==query){
     gifs.add(
-      Gif(item["applicant_name"],item["request_time"])
+      Gif(item["applicant_name"],item["request_time"],edi: item['rt_horafin'] as String?),
     ) ;
+      print(item['rt_horafin']);
     }
   }
 
@@ -241,8 +248,17 @@ void _loadData(){
  List<Widget> _listEventos(List<Gif> data){
     List<Widget> gifs =[];
 
-for (Gif gif in data) {
   
+for (Gif gif in data) {
+  String cambioHora=gif.url;
+    List<String> partsdeHora = cambioHora.split(":");
+     String hours = "${partsdeHora[0]}:${partsdeHora[1]}";
+     
+  String cambioHorafin=gif.edi!;
+    List<String> partsdeHorafin = cambioHorafin.split(":");
+     String hoursfin = "${partsdeHorafin[0]}:${partsdeHorafin[1]}";
+
+     
     gifs.add(
             Container(
               
@@ -251,29 +267,14 @@ for (Gif gif in data) {
               border: Border.all()
 
 ),
-              margin: const EdgeInsets.all(10)
-                                //   margin: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
-                                //   decoration: BoxDecoration(
-                                //     border: Border.all(),
-                                //     borderRadius: BorderRadius.circular(12)),
-                                // child: Column(children: [
-                                //   Text("Titulo: nombre  de quien pidio"),
-                                //   Text("hora"),
-                                //   Text("cosas aprobadas"),
-                                //   Row(
-                                //     children: [ 
-                                //     ElevatedButton(onPressed: (){}, child: Text("editar")),
-                                //     ElevatedButton(onPressed: (){}, child: Text("eliminar")),
-                                //     ],)
-                                // ],)
-              
+              margin: const EdgeInsets.all(10)           
               ,child: Column(
                 children: [
                   Text(gif.name,style: const TextStyle(
                     color: Color.fromARGB(255, 88, 88, 88)
                     )
                   ),
-                  Text("${gif.url}",style: const TextStyle(
+                  Text("de ${hours} a ${hoursfin} horas",style: const TextStyle(
                     color: Color.fromARGB(255, 88, 88, 88)
                     )
                   ),

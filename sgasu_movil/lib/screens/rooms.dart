@@ -30,7 +30,7 @@ Future<List<Gif>> _getGif() async{
 //aqui es donde se pega el url de insomnia si es que te lo llega a cambiar cuando lo crees
 
 
-  final response =await http.get(Uri.parse("http://10.0.2.2:8000/API/edificios/${widget.numeroURl}/salones"));
+  final response =await http.get(Uri.parse("http://192.168.100.9:8000/API/edificios/${widget.numeroURl}/salones"));
   List<Gif> gifs=[];
 
 if(response.statusCode ==200){
