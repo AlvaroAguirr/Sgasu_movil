@@ -141,7 +141,7 @@ class _RoomsState extends State<Rooms> {
                   gif.url,
                   style: const TextStyle(
                     fontSize: 20,
-                    color: Color.fromARGB(255, 119, 150, 119),
+                    color: Color.fromARGB(255, 55, 55, 55),
                   ),
                 ),
               ],

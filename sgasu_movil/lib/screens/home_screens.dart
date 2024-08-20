@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
               "SGASU",
               style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 35,
                   color: AppTheme.whiteColor,
                   fontFamily: 'Raleway'),
             ))

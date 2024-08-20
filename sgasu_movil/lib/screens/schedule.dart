@@ -36,7 +36,7 @@ class _ScheduleState extends State<Schedule> {
                   child: Text(
                 "Horario",
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 35,
                   color: AppTheme.whiteColor,
                   fontFamily: 'Raleway',
                 ),

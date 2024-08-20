@@ -31,7 +31,7 @@ class _SurveyState extends State<Survey> {
               style: TextStyle(
                   fontSize: 35,
                   color: AppTheme.whiteColor,
-                  fontFamily: 'Roboto'),
+                  fontFamily: 'Raleway'),
             ))
           ]),
         ),
@@ -52,7 +52,7 @@ class _SurveyState extends State<Survey> {
                 children: const [
                   Text(
                     "Datos personales:",
-                    style: TextStyle(fontSize: 21, fontFamily: 'Roboto'),
+                    style: TextStyle(fontSize: 21, fontFamily: 'Raleway'),
                   ),
                   Divider(
                     height: 10,
@@ -102,7 +102,7 @@ class _SurveyState extends State<Survey> {
             child: ListView(
               children: [
                 const Text("Requisitos de la petición:",
-                    style: TextStyle(fontSize: 21)),
+                    style: TextStyle(fontSize: 21, fontFamily: 'Raleway')),
                 Row(
                   children: [
                     const Text("Estrado"),
@@ -128,7 +128,7 @@ class _SurveyState extends State<Survey> {
                 ),
                 Row(
                   children: [
-                    Text("Pantalla"),
+                    const Text("Pantalla"),
                     Checkbox(
                         value: pantalla,
                         onChanged: (value) {
@@ -155,7 +155,7 @@ class _SurveyState extends State<Survey> {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text("Descripción del evento:",
-                      style: TextStyle(fontSize: 21)),
+                      style: TextStyle(fontSize: 21, fontFamily: 'Raleway')),
                 ),
                 Divider(
                   height: 20,
