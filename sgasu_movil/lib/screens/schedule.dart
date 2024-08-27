@@ -28,6 +28,7 @@ class _ScheduleState extends State<Schedule> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(90),
           child: AppBar(
+            automaticallyImplyLeading: false,
             title: const Column(children: [
               SizedBox(
                 height: 30,
@@ -35,11 +36,7 @@ class _ScheduleState extends State<Schedule> {
               Center(
                   child: Text(
                 "Horario",
-                style: TextStyle(
-                  fontSize: 35,
-                  color: AppTheme.whiteColor,
-                  fontFamily: 'Raleway',
-                ),
+                style: TextStyle(fontSize: 35, color: AppTheme.whiteColor),
               ))
             ]),
           ),
@@ -74,7 +71,7 @@ class _ScheduleState extends State<Schedule> {
             children: [
               Text(
                 "Día seleccionado: " + today.toString().split(" ")[0],
-                style: const TextStyle(fontFamily: 'Raleway', fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
               Container(
                 child: TableCalendar(
@@ -107,10 +104,7 @@ class _ScheduleState extends State<Schedule> {
                 },
                 child: const Text(
                   "Guardar",
-                  style: TextStyle(
-                      color: AppTheme.whiteColor,
-                      fontFamily: 'Raleway',
-                      fontSize: 20),
+                  style: TextStyle(color: AppTheme.whiteColor, fontSize: 20),
                 ),
               )
             ],

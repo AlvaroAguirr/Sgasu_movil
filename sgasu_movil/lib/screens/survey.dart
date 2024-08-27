@@ -21,6 +21,7 @@ class _SurveyState extends State<Survey> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(90),
         child: AppBar(
+          automaticallyImplyLeading: false,
           title: const Column(children: [
             SizedBox(
               height: 30,
@@ -28,10 +29,7 @@ class _SurveyState extends State<Survey> {
             Center(
                 child: Text(
               "Formulario ",
-              style: TextStyle(
-                  fontSize: 35,
-                  color: AppTheme.whiteColor,
-                  fontFamily: 'Raleway'),
+              style: TextStyle(fontSize: 35, color: AppTheme.whiteColor),
             ))
           ]),
         ),
@@ -52,7 +50,7 @@ class _SurveyState extends State<Survey> {
                 children: const [
                   Text(
                     "Datos personales:",
-                    style: TextStyle(fontSize: 21, fontFamily: 'Raleway'),
+                    style: TextStyle(fontSize: 21),
                   ),
                   Divider(
                     height: 10,
@@ -102,7 +100,7 @@ class _SurveyState extends State<Survey> {
             child: ListView(
               children: [
                 const Text("Requisitos de la petición:",
-                    style: TextStyle(fontSize: 21, fontFamily: 'Raleway')),
+                    style: TextStyle(fontSize: 21)),
                 Row(
                   children: [
                     const Text("Estrado"),
@@ -155,7 +153,9 @@ class _SurveyState extends State<Survey> {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text("Descripción del evento:",
-                      style: TextStyle(fontSize: 21, fontFamily: 'Raleway')),
+                      style: TextStyle(
+                        fontSize: 21,
+                      )),
                 ),
                 Divider(
                   height: 20,
@@ -183,10 +183,7 @@ class _SurveyState extends State<Survey> {
               },
               child: const Text(
                 "Guardar",
-                style: TextStyle(
-                    color: AppTheme.whiteColor,
-                    fontFamily: 'Raleway',
-                    fontSize: 20),
+                style: TextStyle(color: AppTheme.whiteColor, fontSize: 20),
               ),
             ),
           ),

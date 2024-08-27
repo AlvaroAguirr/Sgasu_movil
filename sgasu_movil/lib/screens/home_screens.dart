@@ -51,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(90),
         child: AppBar(
+          automaticallyImplyLeading: false,
           title: const Column(children: [
             SizedBox(
               height: 30,
@@ -58,10 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Center(
                 child: Text(
               "SGASU",
-              style: TextStyle(
-                  fontSize: 35,
-                  color: AppTheme.whiteColor,
-                  fontFamily: 'Raleway'),
+              style: TextStyle(fontSize: 35, color: AppTheme.whiteColor),
             ))
           ]),
         ),
@@ -125,9 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: Text(gif.name,
               style: const TextStyle(
-                  fontSize: 30,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  fontFamily: 'Raleway')),
+                  fontSize: 30, color: Color.fromARGB(255, 0, 0, 0))),
         ),
       ));
     }
